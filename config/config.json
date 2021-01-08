@@ -1,0 +1,23 @@
+{
+    "chest1minOrbs": 2000,
+    "chest1maxOrbs": 4000,
+    "chest1minDiamonds": 20,
+    "chest1maxDiamonds": 100,
+    "chest1minShards": 1,
+    "chest1maxShards": 6,
+    "chest1minKeys": 1,
+    "chest1maxKeys": 6,
+    "chest2minOrbs": 20000,
+    "chest2maxOrbs": 40000,
+    "chest2minDiamonds": 200,
+    "chest2maxDiamonds": 1000,
+    "chest2minShards": 1,
+    "chest2maxShards": 6,
+    "chest2minKeys": 1,
+    "chest2maxKeys": 6,
+    "chest1wait": 900,
+    "chest2wait": 5400,
+    "levelMinObjects": 0,
+    "uploadOnlyRegistered": true,
+    "canReupload": false
+}

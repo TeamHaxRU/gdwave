@@ -1,0 +1,36 @@
+<?php
+//error_reporting(0);
+chdir(dirname(__FILE__));
+include "../lib/connection.php";
+require_once "../lib/GJPCheck.php";
+require_once "../lib/exploitPatch.php";
+$ep = new exploitPatch();
+require_once "../lib/mainLib.php";
+$gs = new mainLib();
+$gjp = $ep->remove($_POST["gjp"]);
+$stars = $ep->remove($_POST["stars"]);
+$feature = $ep->remove($_POST["feature"]);
+$levelID = $ep->remove($_POST["levelID"]);
+$accountID = $ep->remove($_POST["accountID"]);
+if($accountID != "" AND $gjp != ""){
+	$GJPCheck = new GJPCheck();
+	$gjpresult = $GJPCheck->check($gjp,$accountID);
+	if($gjpresult == 1){
+		$permState = $gs->checkPermission($accountID, "actionRateStars");
+		$canSend = $gs->checkPermission($accountID, "actionSendLevel");
+		if($permState){
+			$difficulty = $gs->getDiffFromStars($stars);
+			$gs->rateLevel($accountID, $levelID, $stars, $difficulty["diff"], $difficulty["auto"], $difficulty["demon"]);
+			$gs->featureLevel($accountID, $levelID, $feature);
+			$gs->verifyCoinsLevel($accountID, $levelID, 1);
+			echo 1;
+		} elseif($canSend) {
+			$query = $db->prepare("INSERT INTO modrequests (accountID, levelID, stars, feature) VALUES (:accountID, :levelID, :stars, :feature)");
+			$query->execute([":accountID" => $accountID, ":levelID" => $levelID, ":stars" => $stars, ":feature" => $feature]);
+			echo 1;
+		}else{
+			echo -1;
+		}
+	}else{echo -1;}
+}else{echo -1;}
+?>
